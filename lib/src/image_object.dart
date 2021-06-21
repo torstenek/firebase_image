@@ -1,9 +1,8 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseImageObject {
   int version;
-  final Reference reference;
+  Reference? reference;
   String? localPath;
   final String remotePath;
   final String bucket;
@@ -27,23 +26,13 @@ class FirebaseImageObject {
     };
   }
 
-  factory FirebaseImageObject.fromMap(Map<String, dynamic> map,
-      [FirebaseApp? firebaseApp]) {
-    final String bucket = map['bucket'];
-    final String remotePath = map['remotePath'];
+  factory FirebaseImageObject.fromMap(Map<String, dynamic> map) {
     return FirebaseImageObject(
       version: map["version"] ?? -1,
-      reference: _getImageRef(bucket, remotePath, firebaseApp),
+      reference: map["reference"],
       localPath: map["localPath"],
-      bucket: bucket,
-      remotePath: remotePath,
+      bucket: map["bucket"],
+      remotePath: map["remotePath"],
     );
-  }
-
-  static Reference _getImageRef(
-      String bucket, String remotePath, FirebaseApp? firebaseApp) {
-    FirebaseStorage storage =
-        FirebaseStorage.instanceFor(app: firebaseApp, bucket: bucket);
-    return storage.ref().child(remotePath);
   }
 }
