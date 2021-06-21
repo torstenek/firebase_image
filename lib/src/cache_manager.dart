@@ -24,7 +24,7 @@ class FirebaseImageCacheManager {
 
   Future<void> open() async {
     db = await openDatabase(
-      join((await getDatabasesPath())!, dbName),
+      join((await getDatabasesPath()), dbName),
       onCreate: (Database db, int version) async {
         await db.execute('''
           CREATE TABLE $table (
@@ -99,7 +99,7 @@ class FirebaseImageCacheManager {
 
   Future<void> checkForUpdate(
       FirebaseImageObject object, FirebaseImage image) async {
-    int remoteVersion = (await object.reference.getMetadata())
+    int remoteVersion = (await object.reference!.getMetadata())
             .updated
             ?.millisecondsSinceEpoch ??
         -1;
@@ -133,13 +133,13 @@ class FirebaseImageCacheManager {
 
   Future<Uint8List?> remoteFileBytes(
       FirebaseImageObject object, int maxSizeBytes) {
-    return object.reference.getData(maxSizeBytes);
+    return object.reference!.getData(maxSizeBytes);
   }
 
   Future<Uint8List?> upsertRemoteFileToCache(
       FirebaseImageObject object, int maxSizeBytes) async {
     if (CacheRefreshStrategy.BY_METADATA_DATE == this.cacheRefreshStrategy) {
-      object.version = (await object.reference.getMetadata())
+      object.version = (await object.reference!.getMetadata())
               .updated
               ?.millisecondsSinceEpoch ??
           0;
