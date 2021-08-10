@@ -19,8 +19,8 @@ class FirebaseImageCacheManager {
   final CacheRefreshStrategy cacheRefreshStrategy;
 
   FirebaseImageCacheManager(
-    this.cacheRefreshStrategy,
-  );
+      this.cacheRefreshStrategy,
+      );
 
   Future<void> open() async {
     db = await openDatabase(
@@ -88,7 +88,7 @@ class FirebaseImageCacheManager {
     );
     if (maps.length > 0) {
       final FirebaseImageObject returnObject =
-          FirebaseImageObject.fromMap(maps.first, image.firebaseApp);
+      FirebaseImageObject.fromMap(maps.first, image.firebaseApp);
       if (CacheRefreshStrategy.BY_METADATA_DATE == this.cacheRefreshStrategy) {
         checkForUpdate(returnObject, image); // Check for update in background
       }
@@ -99,9 +99,9 @@ class FirebaseImageCacheManager {
 
   Future<void> checkForUpdate(
       FirebaseImageObject object, FirebaseImage image) async {
-    int remoteVersion = (await object.reference!.getMetadata())
-            .updated
-            ?.millisecondsSinceEpoch ??
+    int remoteVersion = (await object.reference.getMetadata())
+        .updated
+        ?.millisecondsSinceEpoch ??
         -1;
     if (remoteVersion != object.version) {
       // If true, download new image for next load
@@ -133,15 +133,15 @@ class FirebaseImageCacheManager {
 
   Future<Uint8List?> remoteFileBytes(
       FirebaseImageObject object, int maxSizeBytes) {
-    return object.reference!.getData(maxSizeBytes);
+    return object.reference.getData(maxSizeBytes);
   }
 
   Future<Uint8List?> upsertRemoteFileToCache(
       FirebaseImageObject object, int maxSizeBytes) async {
     if (CacheRefreshStrategy.BY_METADATA_DATE == this.cacheRefreshStrategy) {
-      object.version = (await object.reference!.getMetadata())
-              .updated
-              ?.millisecondsSinceEpoch ??
+      object.version = (await object.reference.getMetadata())
+          .updated
+          ?.millisecondsSinceEpoch ??
           0;
     }
     Uint8List? bytes = await remoteFileBytes(object, maxSizeBytes);
