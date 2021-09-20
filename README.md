@@ -1,3 +1,7 @@
+I created this fork of mattreid1/firebase_image to keep it updated with the latest versions of dependencies, to incorporate relevant PRs that haven't been merged upstream and to make some tweaks of my own. I make no promises as to the future maintenance of this fork but feel free to contribute here if you don't get things done upstream by creating PRs.
+
+------8<-------
+
 # 🔥 Firebase Image Provider
 
 [![pub package](https://img.shields.io/pub/v/firebase_image.svg)](https://pub.dartlang.org/packages/firebase_image)
